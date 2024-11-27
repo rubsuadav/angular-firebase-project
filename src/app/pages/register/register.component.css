@@ -6,6 +6,7 @@
   border-radius: 10px;
   background-color: #f9f9f9;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 100px;
 }
 
 .form-group {
@@ -39,4 +40,10 @@ label {
 
 .btn:hover {
   background-color: #0056b3;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
 }

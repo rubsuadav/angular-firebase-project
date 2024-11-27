@@ -72,10 +72,15 @@
   <div class="form-group">
     <label for="rol">Role:</label>
     <select id="rol" name="rol" class="form-control" [(ngModel)]="user.rol">
-      <option value="">Select a role</option>
       <option value="admin">Admin</option>
       <option value="authenticated">Authenticated</option>
     </select>
   </div>
   <button type="submit" class="btn">Register</button>
+
+  @if (error) {
+  <div class="error">
+    <p>{{ error }}</p>
+  </div>
+  }
 </form>
