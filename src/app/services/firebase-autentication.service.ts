@@ -6,7 +6,7 @@ import {
   User,
 } from 'firebase/auth';
 import * as CryptoJS from 'crypto-js';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, setDoc, doc } from 'firebase/firestore';
 
 // local imports
 import { User as U } from '../models/user';
@@ -18,6 +18,26 @@ import { handleValidationUser } from '../validations/validate';
 })
 export class FirebaseAutenticationService {
   constructor() {}
+
+  private async insertUserToDB(
+    userId: string,
+    user: U,
+    hashedPassword: string
+  ) {
+    await setDoc(doc(FIREBASE_DB, 'users', userId), {
+      ...user,
+      createdAt: new Date().toLocaleString(),
+      password: hashedPassword,
+    });
+
+    await addDoc(collection(FIREBASE_DB, 'users', userId, 'role'), {
+      name: user.rol,
+    });
+
+    await addDoc(collection(FIREBASE_DB, 'users', userId, 'animals'), {
+      animals: (user.animals = []),
+    });
+  }
 
   public async registerUser(user: U): Promise<User> {
     if (handleValidationUser(user)) {
@@ -33,11 +53,11 @@ export class FirebaseAutenticationService {
       displayName: user.name + ' ' + user.lastname,
     });
 
-    await addDoc(collection(FIREBASE_DB, 'users'), {
-      ...user,
-      createdAt: new Date().toLocaleString(),
-      password: CryptoJS.SHA256(user.password).toString(CryptoJS.enc.Hex),
-    });
+    await this.insertUserToDB(
+      userCredentials.user.uid,
+      user,
+      CryptoJS.SHA256(user.password).toString(CryptoJS.enc.Hex)
+    );
 
     return userCredentials.user;
   }
