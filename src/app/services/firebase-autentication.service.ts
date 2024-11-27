@@ -5,7 +5,7 @@ import {
   updateProfile,
   User,
 } from 'firebase/auth';
-import bcrypt from 'bcrypt';
+import * as CryptoJS from 'crypto-js';
 import { addDoc, collection } from 'firebase/firestore';
 
 // local imports
@@ -36,7 +36,7 @@ export class FirebaseAutenticationService {
     await addDoc(collection(FIREBASE_DB, 'users'), {
       ...user,
       createdAt: new Date().toLocaleString(),
-      password: bcrypt.hashSync(user.password, 10),
+      password: CryptoJS.SHA256(user.password).toString(CryptoJS.enc.Hex),
     });
 
     return userCredentials.user;
