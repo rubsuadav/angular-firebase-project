@@ -2,10 +2,10 @@ import { User } from '../models/user';
 
 export function handleValidationUser(user: User): string {
   let error = '';
-  if (user.name.length < 6) {
+  if (!user.name || user.name.length < 3) {
     error = 'Name must be at least 3 characters long';
   }
-  if (user.lastname.length < 6) {
+  if (!user.lastname || user.lastname.length < 3) {
     error = 'Lastname must be at least 3 characters long';
   }
   if (
@@ -16,10 +16,10 @@ export function handleValidationUser(user: User): string {
   if (user.age <= 0) {
     error = 'Age must be greater than 0';
   }
-  if (user.username.length < 6) {
+  if (!user.username || user.username.length < 6) {
     error = 'Username must be at least 6 characters long';
   }
-  if (user.password.length < 6) {
+  if (!user.password || user.password.length < 6) {
     error = 'Password must be at least 6 characters long';
   } else if (
     !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{6,}$/.test(
@@ -29,9 +29,7 @@ export function handleValidationUser(user: User): string {
     error =
       'Password must have 1 capital letter, 1 lowercase letter, 1 number and 1 special character';
   }
-  if (!/^\d{10}$/.test(user.phone)) {
-    error = 'Phone must be a number';
-  } else if (!/^(6|7)[0-9]{8}$/.test(user.phone)) {
+  if (!/^(6|7)[0-9]{8}$/.test(user.phone)) {
     error = 'Phone must be a spanish phone number';
   }
   if (!user.rol) {
