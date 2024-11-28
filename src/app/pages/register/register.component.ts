@@ -29,16 +29,14 @@ export class RegisterComponent {
       .registerUser(user)
       .then(async (res: User) => {
         this.error = '';
-        Swal.fire({
+        localStorage.setItem('access_token', await res.getIdToken());
+        const alert = await Swal.fire({
           title: 'Success',
           text: 'User registered successfully',
           icon: 'success',
           confirmButtonText: 'Ok',
         });
-        localStorage.setItem('access_token', await res.getIdToken());
-      })
-      .then(() => {
-        this.router.navigate(['/login']); //change this after
+        if (alert.isConfirmed) this.router.navigate(['/home']);
       })
       .catch((err: string) => {
         this.error = err;

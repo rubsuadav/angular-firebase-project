@@ -1,1 +1,29 @@
-<p>login works!</p>
+<form (submit)="login(user.email, user.password)" class="register-form">
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <input
+      type="email"
+      id="email"
+      name="email"
+      class="form-control"
+      [(ngModel)]="user.email"
+    />
+  </div>
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      class="form-control"
+      [(ngModel)]="user.password"
+    />
+  </div>
+  <button type="submit" class="btn">Login</button>
+
+  @if (error) {
+  <div class="error">
+    <p>{{ error | login }}</p>
+  </div>
+  }
+</form>
