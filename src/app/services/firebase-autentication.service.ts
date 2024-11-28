@@ -4,6 +4,8 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
   User,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from 'firebase/auth';
 import * as CryptoJS from 'crypto-js';
 import { addDoc, collection, setDoc, doc } from 'firebase/firestore';
@@ -70,5 +72,12 @@ export class FirebaseAutenticationService {
     );
 
     return userCredentials.user;
+  }
+
+  public async loginWithGoogle(): Promise<string | undefined> {
+    const provider = new GoogleAuthProvider();
+    const userCredentials = await signInWithPopup(FIREBASE_AUTH, provider);
+    const credential = GoogleAuthProvider.credentialFromResult(userCredentials);
+    return credential?.accessToken;
   }
 }

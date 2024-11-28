@@ -43,4 +43,16 @@ export class LoginComponent {
         this.error = err;
       });
   }
+
+  protected loginWithGoogle() {
+    this.authService
+      .loginWithGoogle()
+      .then((token: string | undefined) => {
+        localStorage.setItem('access_token', token as string);
+        this.router.navigate(['/home']);
+      })
+      .catch((err: any) => {
+        this.error = err.code || err.message || err.customData.email;
+      });
+  }
 }
