@@ -1,0 +1,53 @@
+<footer class="footer">
+  <div class="footer__content">
+    <div class="footer__section">
+      <h3>About Us</h3>
+      <p>We are a company dedicated to providing the best services.</p>
+    </div>
+    <div class="footer__section">
+      <h3>Quick Links</h3>
+      <ul>
+        <li>
+          <a [routerLink]="['/home']" routerLinkActive="router-link-active"
+            >Home</a
+          >
+        </li>
+        <li>
+          <a [routerLink]="['/about']" routerLinkActive="router-link-active"
+            >About</a
+          >
+        </li>
+        <li>
+          <a [routerLink]="['/contact']" routerLinkActive="router-link-active"
+            >Contact</a
+          >
+        </li>
+        <li>
+          <a [routerLink]="['/login']" routerLinkActive="router-link-active"
+            >Login</a
+          >
+        </li>
+      </ul>
+    </div>
+    <div class="footer__section">
+      <h3>Follow Us</h3>
+      <ul class="footer__social">
+        <li>
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+        </li>
+        <li>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+        </li>
+        <li>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+        </li>
+        <li>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <p>&copy; {{ year }} Your Company. All rights reserved.</p>
+  </div>
+</footer>
