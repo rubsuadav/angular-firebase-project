@@ -37,7 +37,10 @@ export class LoginComponent {
           icon: 'success',
           confirmButtonText: 'Ok',
         });
-        if (alert.isConfirmed) this.router.navigate(['/home']);
+        if (alert.isConfirmed) {
+          window.location.reload();
+          this.router.navigate(['/home']);
+        }
       })
       .catch((err: string) => {
         this.error = err;
@@ -49,6 +52,7 @@ export class LoginComponent {
       .loginWithGoogle()
       .then((token: string | undefined) => {
         localStorage.setItem('access_token', token as string);
+        window.location.reload();
         this.router.navigate(['/home']);
       })
       .catch((err: any) => {
