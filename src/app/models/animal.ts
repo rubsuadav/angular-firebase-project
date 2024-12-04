@@ -6,5 +6,4 @@ export interface Animal {
   height: number;
   image: string;
   ownerId: string; // FK User
-  specie: string; // FK Specie
 }
