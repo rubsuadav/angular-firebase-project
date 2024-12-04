@@ -64,11 +64,10 @@
       </ul>
     </div>
 
-    <!--IMPLEMENTS THIS LATER -->
     <form class="form-inline my-4 my-lg-4">
       <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text" style="height: 40px">
+        <div class="input-group-prepend" (click)="searchAnimals(animal.name)">
+          <span class="input-group-text" style="height: 40px; cursor: pointer">
             <i class="fa-solid fa-magnifying-glass"></i>
           </span>
         </div>
@@ -78,8 +77,14 @@
           aria-label="Search"
           id="search"
           placeholder="Search animals"
+          [(ngModel)]="animal.name"
+          (ngModelChange)="searchAnimals($event)"
+          name="name"
         />
       </div>
+      @if (error) {
+      <p class="error">{{ error }}</p>
+      }
     </form>
   </div>
 </nav>

@@ -4,3 +4,9 @@
 #navbarNavDropdown .nav-item {
   margin-right: 10%;
 }
+
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
