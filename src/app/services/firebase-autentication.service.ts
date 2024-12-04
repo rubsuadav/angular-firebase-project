@@ -8,7 +8,7 @@ import {
   signInWithPopup,
 } from 'firebase/auth';
 import * as CryptoJS from 'crypto-js';
-import { addDoc, collection, setDoc, doc } from 'firebase/firestore';
+import { addDoc, collection, setDoc, doc, getDoc } from 'firebase/firestore';
 
 // local imports
 import { User as U } from '../models/user';
@@ -78,6 +78,24 @@ export class FirebaseAutenticationService {
     const provider = new GoogleAuthProvider();
     const userCredentials = await signInWithPopup(FIREBASE_AUTH, provider);
     const credential = GoogleAuthProvider.credentialFromResult(userCredentials);
-    return { token: credential?.accessToken, userId: userCredentials.user.uid };
+
+    const user = userCredentials.user;
+
+    const userDoc = await getDoc(doc(FIREBASE_DB, 'users', user.uid));
+    if (!userDoc.exists()) {
+      const newUser = {
+        name: user.displayName?.split(' ')[0] as string,
+        lastname: user.displayName?.split(' ')[1] || '', // Lastname is optional in Google
+        email: user.email as string,
+        age: 0, // No provider by Google
+        username: user.email?.split('@')[0] as string,
+        password: '', // Password is not needed for Google login
+        phone: '', // No provider by Google
+        rol: 'authenticated',
+      };
+
+      await this.insertUserToDB(user.uid, newUser, '');
+    }
+    return { token: credential?.accessToken, userId: user.uid };
   }
 }

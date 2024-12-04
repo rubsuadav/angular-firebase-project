@@ -31,6 +31,7 @@ export class LoginComponent {
       .then(async (res: User) => {
         this.error = '';
         localStorage.setItem('access_token', await res.getIdToken());
+        localStorage.setItem('userId', res.uid);
         const alert = await Swal.fire({
           title: 'Success',
           text: 'Loging successfully',
