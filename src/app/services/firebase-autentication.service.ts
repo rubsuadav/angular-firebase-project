@@ -74,10 +74,10 @@ export class FirebaseAutenticationService {
     return userCredentials.user;
   }
 
-  public async loginWithGoogle(): Promise<string | undefined> {
+  public async loginWithGoogle(): Promise<any> {
     const provider = new GoogleAuthProvider();
     const userCredentials = await signInWithPopup(FIREBASE_AUTH, provider);
     const credential = GoogleAuthProvider.credentialFromResult(userCredentials);
-    return credential?.accessToken;
+    return { token: credential?.accessToken, userId: userCredentials.user.uid };
   }
 }

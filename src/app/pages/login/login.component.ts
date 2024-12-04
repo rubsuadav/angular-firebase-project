@@ -50,8 +50,9 @@ export class LoginComponent {
   protected loginWithGoogle() {
     this.authService
       .loginWithGoogle()
-      .then((token: string | undefined) => {
-        localStorage.setItem('access_token', token as string);
+      .then((response: { token: string; userId: string }) => {
+        localStorage.setItem('access_token', response.token);
+        localStorage.setItem('userId', response.userId);
         window.location.reload();
         this.router.navigate(['/home']);
       })
