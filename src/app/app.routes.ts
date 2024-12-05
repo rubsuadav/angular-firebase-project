@@ -4,6 +4,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
 import { anonymousGuard } from './guards/anonymous.guard';
 import { authenticatedGuard } from './guards/authenticated.guard';
+import { CreateAnimalComponent } from './pages/create-animal/create-animal.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'register', pathMatch: 'full' },
@@ -14,4 +15,9 @@ export const routes: Routes = [
   },
   { path: 'login', component: LoginComponent, canActivate: [anonymousGuard] },
   { path: 'home', component: HomeComponent, canActivate: [authenticatedGuard] },
+  {
+    path: 'animal/add',
+    component: CreateAnimalComponent,
+    canActivate: [authenticatedGuard],
+  },
 ];

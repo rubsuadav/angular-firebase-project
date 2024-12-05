@@ -55,7 +55,14 @@
             Animals operations
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Add animal</a></li>
+            <li>
+              <a
+                class="dropdown-item"
+                [routerLink]="['/animal/add']"
+                routerLinkActive="router-link-active"
+                >Add animal</a
+              >
+            </li>
             <li><a class="dropdown-item" href="#">List animals</a></li>
             <li><a class="dropdown-item" href="#"> Adopt animal</a></li>
           </ul>
