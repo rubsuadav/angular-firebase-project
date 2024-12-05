@@ -1,3 +1,4 @@
+import { Animal } from '../models/animal';
 import { User } from '../models/user';
 
 export function handleValidationUser(user: User): string {
@@ -38,5 +39,28 @@ export function handleValidationUser(user: User): string {
     error = 'Rol must be "admin" or "authenticated"';
   }
 
+  return error;
+}
+
+export function handleValidationAnimal(animal: Animal): string {
+  let error = '';
+  if (!animal.name || animal.name.length < 3) {
+    error = 'Name must be at least 3 characters long';
+  }
+  if (!animal.age || animal.age <= 0) {
+    error = 'Age must be greater than 0';
+  }
+  if (!animal.weight || animal.weight <= 0) {
+    error = 'Weight must be greater than 0';
+  }
+  if (!animal.height || animal.height <= 0) {
+    error = 'Height must be greater than 0';
+  }
+  if (
+    !animal.image ||
+    !/^(http|https):\/\/[^ "]+\.(png|jpg|jpeg)$/.test(animal.image)
+  ) {
+    error = 'Image must be a valid URL';
+  }
   return error;
 }
