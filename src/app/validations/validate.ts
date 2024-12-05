@@ -48,7 +48,7 @@ export function handleValidationAnimal(animal: Animal): string {
     error = 'Name must be at least 3 characters long';
   }
   if (!animal.age || animal.age <= 0) {
-    error = 'Age must be greater than 0';
+    error = 'Animals must be at least 1 month old';
   }
   if (!animal.weight || animal.weight <= 0) {
     error = 'Weight must be greater than 0';
