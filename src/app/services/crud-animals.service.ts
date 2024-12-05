@@ -7,6 +7,7 @@ import {
   getDocs,
   getDoc,
   deleteDoc,
+  arrayUnion,
 } from 'firebase/firestore';
 
 //local imports
@@ -25,6 +26,29 @@ export class CRUDAnimalsService {
       doc(FIREBASE_DB, 'users', localStorage.getItem('userId') as string)
     );
     return user.get('username');
+  }
+
+  private async asociateAnimalToUser(animal: Animal) {
+    const userAnimalDoc = await getDocs(
+      collection(
+        FIREBASE_DB,
+        'users',
+        localStorage.getItem('userId') as string,
+        'animals'
+      )
+    );
+    await updateDoc(
+      doc(
+        FIREBASE_DB,
+        'users',
+        localStorage.getItem('userId') as string,
+        'animals',
+        userAnimalDoc.docs[0].id
+      ),
+      {
+        animals: arrayUnion(animal.name),
+      }
+    );
   }
 
   public async getAllAnimals(): Promise<any> {
@@ -46,19 +70,7 @@ export class CRUDAnimalsService {
     await addDoc(collection(FIREBASE_DB, 'animals'), animal);
 
     // asociate the animal to the user (1*N)
-    await addDoc(
-      collection(
-        FIREBASE_DB,
-        'users',
-        localStorage.getItem('userId') as string,
-        'animals'
-      ),
-      [
-        {
-          animals: animal.name,
-        },
-      ]
-    );
+    await this.asociateAnimalToUser(animal);
   }
 
   public async updateAnimal(animal: Animal, id: string): Promise<any> {
