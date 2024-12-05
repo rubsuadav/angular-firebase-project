@@ -35,6 +35,10 @@ export class FirebaseAutenticationService {
     await addDoc(collection(FIREBASE_DB, 'users', userId, 'role'), {
       name: user.rol,
     });
+
+    await addDoc(collection(FIREBASE_DB, 'users', userId, 'animals'), {
+      animals: (user.animals = []),
+    });
   }
 
   public async registerUser(user: U): Promise<User> {
