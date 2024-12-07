@@ -5,11 +5,12 @@ import { FormsModule } from '@angular/forms';
 // local imports
 import { SearchService } from '../../services/search.service';
 import { Animal } from '../../models/animal';
+import { CardComponent } from '../card/card.component';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterModule, FormsModule],
+  imports: [RouterModule, FormsModule, CardComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })
@@ -33,7 +34,6 @@ export class NavbarComponent {
     this.searchService
       .searchAnimalsByName(name)
       .then((animals) => {
-        console.log(animals);
         this.animals = animals;
       })
       .catch((err: string) => {

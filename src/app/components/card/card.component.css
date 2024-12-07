@@ -1,0 +1,11 @@
+.custom-card {
+  width: 250px;
+  height: 350px;
+  margin: auto;
+}
+
+.modal-header {
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
