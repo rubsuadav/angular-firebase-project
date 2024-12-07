@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore';
 
 // local imports
 import { FIREBASE_DB } from '../../config';
@@ -12,12 +12,11 @@ export class SearchService {
 
   public async searchAnimalsByName(name: string): Promise<any> {
     if (!name) throw new Error('Name is required');
-    const animalQuery = query(
-      collection(FIREBASE_DB, 'animals'),
-      where('name', 'array-contains', name)
-    );
-    const querySnapshot = await getDocs(animalQuery);
-    const animals = querySnapshot.docs.map((doc) => doc.data());
+    const lowerCaseName = name.toLowerCase();
+    const querySnapshot = await getDocs(collection(FIREBASE_DB, 'animals'));
+    const animals = querySnapshot.docs
+      .map((doc) => doc.data())
+      .filter((animal) => animal['name'].toLowerCase().includes(lowerCaseName));
     return animals;
   }
 }
