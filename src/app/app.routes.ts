@@ -5,9 +5,11 @@ import { HomeComponent } from './pages/home/home.component';
 import { anonymousGuard } from './guards/anonymous.guard';
 import { authenticatedGuard } from './guards/authenticated.guard';
 import { CreateAnimalComponent } from './pages/create-animal/create-animal.component';
+import { ContactFormComponent } from './components/contact-form/contact-form.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'register', pathMatch: 'full' },
+  { path: 'contact', component: ContactFormComponent },
   {
     path: 'register',
     component: RegisterComponent,
