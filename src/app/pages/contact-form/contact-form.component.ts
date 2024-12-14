@@ -6,6 +6,9 @@ import Swal from 'sweetalert2';
 // local imports
 import { environment } from '../../../environments/environment';
 import { ContactInfo } from '../../models/contact-info';
+import BadWordsNext from 'bad-words-next';
+import en from 'bad-words-next/lib/en';
+import es from 'bad-words-next/lib/es';
 
 @Component({
   selector: 'app-contact-form',
@@ -17,8 +20,21 @@ import { ContactInfo } from '../../models/contact-info';
 export class ContactFormComponent {
   protected error: string = '';
   protected contact: ContactInfo = {} as ContactInfo;
+  protected badwords = new BadWordsNext();
 
   protected sendEmail(contact: ContactInfo) {
+    this.badwords.add(en);
+    this.badwords.add(es);
+    if (this.badwords.check(contact.message)) {
+      this.error = 'Please refrain from using profanity.';
+      return;
+    }
+    if (
+      !/^\w+([.-]?\w+)*@(gmail|hotmail|outlook)\.com$/.test(contact.from_name)
+    ) {
+      this.error = 'Please use a valid email address.';
+      return;
+    }
     if (!contact.from_name || !contact.message) {
       this.error = 'Please fill out all fields.';
       return;
@@ -35,9 +51,6 @@ export class ContactFormComponent {
       )
       .then(() => {
         Swal.fire('Email sent!', 'Thank you for your message.', 'success');
-      })
-      .catch((error) => {
-        this.error = error;
       });
   }
 
