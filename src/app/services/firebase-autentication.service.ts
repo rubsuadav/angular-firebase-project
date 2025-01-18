@@ -41,6 +41,26 @@ export class FirebaseAutenticationService {
     });
   }
 
+  private getValidBirthdate(): string {
+    const dateRegex = /^\d{4}\/\d{2}\/\d{2}$/;
+    let birthdateInput: string | null;
+
+    while (true) {
+      birthdateInput = prompt('Please enter your birthdate (YYYY/MM/DD):');
+      if (!birthdateInput) {
+        alert('Birthdate is required');
+      } else if (!dateRegex.test(birthdateInput)) {
+        alert('Invalid date format. Please enter in YYYY/MM/DD format.');
+      } else if (new Date(birthdateInput) > new Date()) {
+        alert('Birthdate cannot be in the future.');
+      } else {
+        break;
+      }
+    }
+
+    return birthdateInput;
+  }
+
   public async registerUser(user: U): Promise<User> {
     if (handleValidationUser(user)) {
       throw new Error(handleValidationUser(user));
@@ -84,6 +104,7 @@ export class FirebaseAutenticationService {
     const userDoc = await getDoc(doc(FIREBASE_DB, 'users', user.uid));
     if (!userDoc.exists()) {
       const newUser = {
+        birthdate: this.getValidBirthdate(),
         name: user.displayName?.split(' ')[0] as string,
         lastname: user.displayName?.split(' ')[1] || '', // Lastname is optional in Google
         email: user.email as string,
